@@ -92,6 +92,9 @@ ipinfo_handler = ipinfo.getHandler(access_token=app_env.ipinfo_secret_key)
 
 # logger
 
+import os
+os.makedirs("logs", exist_ok=True)
+
 log_file = "logs/app.log"
 handler = RotatingFileHandler(
     log_file, maxBytes=5 * 1024 * 1024, backupCount=3  # 5MB max, keep 3 backups
