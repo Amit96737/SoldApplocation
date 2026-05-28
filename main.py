@@ -77,8 +77,8 @@ app.add_middleware(
 )
 
 # Initialize Firebase
-cred = credentials.Certificate("serviceAccountKey.json")
-firebase_admin.initialize_app(cred)
+# cred = credentials.Certificate("serviceAccountKey.json")
+# firebase_admin.initialize_app(cred)
 
 # Initialize Cloudinary
 cloudinary.config(
