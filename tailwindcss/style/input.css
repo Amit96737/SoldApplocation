@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #F5F5F5;
+  overflow-x: auto;
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+  height: 6px;
+  background-color: #f9f9f9;
+  overflow-x: auto;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(75, 74, 74, 0.3);
+  background-color: #90b4ee;
+  overflow-x: auto;
+}
+
+.select2-container .select2-selection--single {
+    @apply py-2 h-11 pl-1 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white !important;
+}
+
+.select2-results{
+  @apply text-base bg-black !important;
+
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    @apply absolute top-[0.6rem] !important;
+
+}
+
+.select2-dropdown {
+  @apply absolute bg-white mt-2 rounded-lg  border border-gray-300 text-text-color !important;
+  }
+
+  .ql-toolbar.ql-snow {
+    @apply shadow-sm border border-b-0 rounded-tl-lg rounded-tr-lg dark:bg-gray-700 dark:border-gray-600 text-white bg-gray-50 border-gray-300 !important;
+  }
+  .ql-container.ql-snow {
+    @apply border rounded-bl-lg dark:border-gray-600 min-h-72 overflow-y-auto max-h-72 rounded-br-lg border-gray-300 !important;
+  }
+  .ql-editor {
+     @apply text-lg !important;
+  }
+  
+/*
+  .select2-container--open .select2-dropdown--below{
+    @apply absolute border border-t-2 border-b-2 !important;
+  } */

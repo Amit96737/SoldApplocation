@@ -1,0 +1,285 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Sold Admin - {{ language_name }} Translations</title>
+<script src="{{ url_for('static',path='js/pages/app-languages.js') }}"></script>
+
+{% endblock %}
+
+
+{% block content %}
+
+<main x-data="languagesPage" class="h-full">
+
+    {% set dataLength = translations.offset + translations.limit %}
+    <div x-data='{
+        searchFieldModel: "",
+        pageSize:({{translations.offset}} + 1),
+        localization: {{ translations.data | tojson }},
+        get filteredlocalization() {
+            return this.localization.filter(
+                i => i["value"].toLowerCase().startsWith(this.searchFieldModel.toLowerCase())
+            )
+        }
+    }'>
+        <div
+            class="px-5 pt-8 block bg-white sm:flex items-center justify-between lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700">
+            <div class="w-full mb-1">
+                <div class="mb-4">
+                    <nav class="flex mb-5" aria-label="Breadcrumb">
+                        <ol class="inline-flex items-center space-x-1 text-sm font-medium md:space-x-2">
+                            <li class="inline-flex items-center">
+                                <a href="#"
+                                    class="inline-flex items-center text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-white">
+                                    <svg class="w-5 h-5 mr-2.5" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
+                                        </path>
+                                    </svg>
+                                    Home
+                                </a>
+                            </li>
+                            <li>
+                                <div class="flex items-center">
+                                    <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                    <a href="#"
+                                        class="ml-1 text-gray-700 hover:text-primary-600 md:ml-2 dark:text-gray-300 dark:hover:text-white">Administrator</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="flex items-center">
+                                    <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                    <span class="ml-1 text-gray-400 md:ml-2 dark:text-gray-500"
+                                        aria-current="page">Languages</span>
+                                </div>
+                            </li>
+
+                            <li>
+                                <div class="flex items-center">
+                                    <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                    <span class="ml-1 text-gray-400 md:ml-2 dark:text-gray-500" aria-current="page">{{
+                                        language_name }} Translation</span>
+                                </div>
+                            </li>
+                        </ol>
+                    </nav>
+                    <h3 class="text-[1.4rem] font-medium sm:text-2xl dark:text-white">{{ language_name }}
+                        Translations</h3>
+                </div>
+                <div class="sm:flex mb-5 justify-between">
+                    <div
+                        class="items-center hidden sm:flex sm:divide-x sm:divide-gray-100 sm:mb-0 dark:divide-gray-700">
+                        <form class="lg:pr-3" action="#" method="GET">
+                            <label for="users-search" class="sr-only">Search</label>
+                            <div class="relative lg:w-64 xl:w-96">
+                                <input type="hidden" value="{{lang}}" name="lang" required>
+                                <input type="text" name="search" id="users-search"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                                    placeholder="Search for language" value="{{search}}">
+                            </div>
+                        </form>
+                    </div>
+
+                    <div>
+                        <button data-modal-target="add-translation-modal" data-modal-toggle="add-translation-modal"
+                            class="px-4 flex items-center py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700">
+                            Add Translation
+                        </button>
+
+                        <!-- Main modal -->
+                        <div id="add-translation-modal" tabindex="-1" aria-hidden="true"
+                            class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                            <div class="relative p-4 w-full max-w-md max-h-full">
+                                <!-- Modal content -->
+                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                    <!-- Modal header -->
+                                    <div
+                                        class="flex  py-3 justify-between items-center border-b rounded-t dark:border-gray-700">
+                                        <h3 class="mx-5 text-lg text-gray-900 font-semibold dark:text-white">
+                                            Add Translation
+                                        </h3>
+
+                                        <button type="button"
+                                            class="text-gray-400 mx-5 p-2 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm ml-auto inline-flex items-center dark:hover:bg-gray-700 dark:hover:text-white"
+                                            data-modal-toggle="add-translation-modal">
+                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd"
+                                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                    clip-rule="evenodd"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <!-- Modal body -->
+                                    <form x-ref="addTranslationForm" @submit.prevent="addTranslation()">
+                                        <div class="grid gap-4 mb-4 grid-cols-2 p-4 md:p-5">
+                                            <div class="col-span-2">
+                                                <label for="key"
+                                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Translation
+                                                    Key</label>
+                                                <input type="text" name="key" id="key"
+                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                                    required="">
+                                            </div>
+
+                                            <div class="col-span-2 sm:col-span-1">
+                                                <label for="en"
+                                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">English
+                                                    Translation
+                                                </label>
+                                                <input type="text" name="en" id="en"
+                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                                    required="">
+                                            </div>
+
+                                            <div class="col-span-2 sm:col-span-1">
+                                                <label for="fr"
+                                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">French
+                                                    Translation</label>
+                                                <input type="text" name="fr" id="fr"
+                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                                    required="">
+                                            </div>
+
+                                            <div class="col-span-2">
+                                                <label for="he"
+                                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Hebrew
+                                                    Translation</label>
+                                                <input type="text" name="he" id="he"
+                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                                    required="">
+                                            </div>
+                                        </div>
+
+                                        <div
+                                            class="items-center px-5 py-3 border-t border-gray-200 rounded-b dark:border-gray-700">
+                                            <button type="submit"
+                                                class="px-3 flex items-center py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700">
+                                                Add Translations
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="px-4 py-5 dark:bg-gray-900">
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <table class="w-full text-[0.85rem] text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="px-6 py-4 w-10">
+                                SL
+                            </th>
+                            <th scope="col" class="px-2 py-4">
+                                Key
+                            </th>
+                            <th scope="col" class="px-2 py-4">
+                                Value
+                            </th>
+                            <th scope="col" class="pr-5 py-4 text-center">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template x-for="(trans, index) in filteredlocalization" :key="trans['key']">
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50
+                                dark:hover:bg-gray-600">
+                                <th scope="row"
+                                    class="w-10 px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    <a x-text="(pageSize + index)"></a>
+                                </th>
+                                <td class="px-2 py-4 w-[21rem]  max-w-[21rem] ">
+                                    <div class="text-clip line-clamp-3">
+                                        <a x-text="trans['key']"></a>
+                                    </div>
+                                </td>
+                                <td class="px-2 py-4 w-[35rem]  max-w-[35rem]">
+                                    <label>
+                                        <input type="text" name="trans-value" :id="'transInput' + (index + 1)"
+                                            class="py-2.5.5 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                            :value="trans['value']" required>
+                                    </label>
+
+                                </td>
+                                <td class="py-4 px-5 w-[5rem]">
+                                    <button @click="saveLocalization(trans['key'], (index + 1))" type="submit"
+                                        class="text-blue-700 hover:text-white border border-blue-700 hover:bg-primary font-medium rounded-lg text-sm px-3 py-2 text-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500">
+                                        Update
+                                    </button>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+
+                <div
+                    class="sticky bottom-0 right-0 items-center w-full p-4 bg-white border-t border-gray-200 sm:flex sm:justify-between dark:bg-gray-800 dark:border-gray-700">
+                    <div class="flex items-center mb-4 sm:mb-0">
+                        <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Showing <span
+                                class="font-semibold text-gray-900 dark:text-white">{{ translations.offset }}-{{
+                                dataLength }}</span> of <span class="font-semibold text-gray-900 dark:text-white">{{
+                                translations.total }}</span></span>
+                    </div>
+                    <div class="flex items-center justify-end">
+
+                        <button
+                            @click="window.location = '/admin/language/localization?lang={{lang}}&page={{ translations.page - 1 }}&limit=20'"
+                            type="button"
+                            class="text-gray-900 disabled:text-gray-400 disabled:hover:bg-white border-none flex bg-white border border-gray-300  hover:bg-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600"
+                            :disabled="{{ (translations.page == 1 ) | tojson }}">
+                            <svg class="w-5 h-5 mr-1 -ml-1" fill=" currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            Previous
+                        </button>
+
+                        <button
+                            @click="window.location = '/admin/language/localization?lang={{lang}}&page={{ translations.page + 1 }}&limit=20'"
+                            type="button"
+                            class="text-gray-900 disabled:text-gray-400 disabled:hover:bg-white border-none flex bg-white border border-gray-300  hover:bg-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600"
+                            :disabled="{{ (dataLength > translations.total) | tojson }}">Next
+                            <svg class="w-5 h-5 ml-1 -mr-1" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+    const lang = '{{ lang }}'
+</script>
+
+{% endblock %}

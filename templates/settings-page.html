@@ -1,0 +1,271 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title> Admin dashboard </title>
+{% endblock %}
+
+{% block content %}
+
+<body class="vertical-layout vertical-menu-modern  navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="">
+
+    {% include 'header.html' %}
+
+    {% include 'sidebar.html' %}
+
+    <!-- BEGIN: Content-->
+    <div class="app-content content ">
+        <div class="content-overlay"></div>
+        <div class="header-navbar-shadow"></div>
+        <div class="content-wrapper">
+            <div class="content-header row">
+                <div class="content-header-left col-md-9 col-12 mb-2">
+                    <div class="row breadcrumbs-top">
+                        <div class="col-12">
+                            <h2 class="content-header-title float-left mb-0">Admin Settings</h2>
+                            <div class="breadcrumb-wrapper">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+
+                                    <li class="breadcrumb-item active"> Admin Settings</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="content-body">
+                <!-- account setting page -->
+                <section id="page-account-settings">
+                    <div class="row">
+                        <!-- left menu section -->
+                        <div class="col-md-3 mb-2 mb-md-0">
+                            <ul class="nav nav-pills flex-column nav-left">
+                                <!-- general -->
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="account-pill-general" data-toggle="pill" href="#account-vertical-general" aria-expanded="true">
+                                        <i data-feather="user" class="font-medium-3 mr-1"></i>
+                                        <span class="font-weight-bold">General</span>
+                                    </a>
+                                </li>
+                                <!-- change password -->
+                                <li class="nav-item">
+                                    <a class="nav-link" id="account-pill-password" data-toggle="pill" href="#account-vertical-password" aria-expanded="false">
+                                        <i data-feather="lock" class="font-medium-3 mr-1"></i>
+                                        <span class="font-weight-bold">Change Password</span>
+                                    </a>
+                                </li>
+                                <!-- information -->
+
+                            </ul>
+                        </div>
+                        <!--/ left menu section -->
+
+                        <!-- right content section -->
+                        <div class="col-md-9">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="tab-content">
+                                        <!-- general tab -->
+                                        <div role="tabpanel" class="tab-pane active" id="account-vertical-general" aria-labelledby="account-pill-general" aria-expanded="true">
+                                            <!-- header media -->
+
+                                            <form class="validate-form mt-2" id="user-edit-form">
+                                            <div class="media">
+                                                <a href="javascript:void(0);" class="mr-25">
+                                                    <img src='{{current_admin.profile_pic}}' style="object-fit: cover;" id="img-placeholder" class="rounded mr-50" alt="profile image" height="80" width="80" />
+                                                </a>
+                                                <!-- upload and reset button -->
+                                                <div class="media-body mt-75 ml-1">
+                                                    <label for="user-img" class="btn btn-sm btn-primary mb-75 mr-75">Upload</label>
+                                                    <input type="file" name="user_img" id="user-img" hidden accept="image/*" />
+                                                    <p>Allowed JPG, GIF or PNG. Max size of 800kB</p>
+                                                </div>
+                                                <!--/ upload and reset button -->
+                                            </div>
+                                            <!--/ header media -->
+
+                                            <!-- form -->
+                                                <label for="user-id"></label>
+                                                <input type="text" class="form-control" value="{{ current_admin.id }}" id="user-id" name="user_id" hidden />
+
+
+                                                <div class="row">
+
+                                                    <div class="col-12 col-sm-6">
+                                                        <div class="form-group">
+                                                            <label for="account-name">Name</label>
+                                                            <input type="text" class="form-control" id="account-name" name="fullname" placeholder="Fullname" value="{{ current_admin.fullname }}" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-sm-6">
+                                                        <div class="form-group">
+                                                            <label for="account-e-mail">E-mail</label>
+                                                            <input type="email" class="form-control" id="account-e-mail" placeholder="Email" value={{current_admin.email_address}} disabled/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <button type="submit" class="btn btn-primary mt-2 mr-1" id="edit-btn">
+                                                            <span class="spinner-border spinner-border-sm hidden" id="loader" role="status" aria-hidden="true"></span>
+                                                            Save changes</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            <!--/ form -->
+                                        </div>
+                                        <!--/ general tab -->
+
+                                        <!-- change password -->
+                                        <div class="tab-pane fade" id="account-vertical-password" role="tabpanel" aria-labelledby="account-pill-password" aria-expanded="false">
+                                            <!-- form -->
+                                            <form class="validate-form">
+                                                <div class="row">
+                                                    <div class="col-12 col-sm-6">
+                                                        <div class="form-group">
+                                                            <label for="account-old-password">Old Password</label>
+                                                            <div class="input-group form-password-toggle input-group-merge">
+                                                                <input type="password" class="form-control" id="account-old-password" name="password" placeholder="Old Password" />
+                                                                <div class="input-group-append">
+                                                                    <div class="input-group-text cursor-pointer">
+                                                                        <i data-feather="eye"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12 col-sm-6">
+                                                        <div class="form-group">
+                                                            <label for="account-new-password">New Password</label>
+                                                            <div class="input-group form-password-toggle input-group-merge">
+                                                                <input type="password" id="account-new-password" name="new-password" class="form-control" placeholder="New Password" />
+                                                                <div class="input-group-append">
+                                                                    <div class="input-group-text cursor-pointer">
+                                                                        <i data-feather="eye"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-sm-6">
+                                                        <div class="form-group">
+                                                            <label for="account-retype-new-password">Retype New Password</label>
+                                                            <div class="input-group form-password-toggle input-group-merge">
+                                                                <input type="password" class="form-control" id="account-retype-new-password" name="confirm-new-password" placeholder="New Password" />
+                                                                <div class="input-group-append">
+                                                                    <div class="input-group-text cursor-pointer"><i data-feather="eye"></i></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <button type="submit" class="btn btn-primary mr-1 mt-1">Save changes</button>
+                                                        <button type="reset" class="btn btn-outline-secondary mt-1">Cancel</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            <!--/ form -->
+                                        </div>
+                                        <!--/ change password -->
+
+                                        <!-- information -->
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/ right content section -->
+                    </div>
+                </section>
+                <!-- / account setting page -->
+
+            </div>
+        </div>
+    </div>
+    <!-- END: Content-->
+
+    <div class="sidenav-overlay"></div>
+    <div class="drag-target"></div>
+
+    <!-- BEGIN: Footer-->
+    <footer class="footer footer-static footer-light">
+        <p class="clearfix mb-0"><span class="float-md-left d-block d-md-inline-block mt-25">COPYRIGHT &copy; 2021<a class="ml-25" href="https://1.envato.market/pixinvent_portfolio" target="_blank">Pixinvent</a><span class="d-none d-sm-inline-block">, All rights Reserved</span></span><span class="float-md-right d-none d-md-block">Hand-crafted & Made with<i data-feather="heart"></i></span></p>
+    </footer>
+    <button class="btn btn-primary btn-icon scroll-top" type="button"><i data-feather="arrow-up"></i></button>
+    <!-- END: Footer-->
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
+<script src="{{ url_for('static', path='/vendors/js/vendors.min.js') }}"></script>
+<script src="{{ url_for('static', path='/vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
+<script src="{{ url_for('static', path='/js/core/app-menu.js') }}"></script>
+<script src="{{ url_for('static', path='/js/core/app.js') }}"></script>
+<script src="{{ url_for('static', path='/js/scripts/pages/page-auth-login.js') }}"></script>
+
+
+<script>
+    {% for error in errors %}
+		 iziToast.error({
+        title: '',
+        message: "{{error}}",
+        position: 'topRight'
+    });
+	{% endfor %}
+
+    $(window).on('load', function () {
+        if (feather) {
+            feather.replace({
+                width: 14,
+                height: 14
+            });
+        }
+    })
+
+    const user_img = document.getElementById("user-img")
+    const img_placeholder = document.getElementById("img-placeholder")
+
+    user_img.onchange = evt => {
+        const [file] = user_img.files
+        if (file) {
+            img_placeholder.src = URL.createObjectURL(file)
+        }
+    }
+
+
+    const userEditForm = document.getElementById('user-edit-form');
+    userEditForm.addEventListener('submit', editUserProfile);
+
+
+    function editUserProfile(event) {
+        event.preventDefault();
+
+        const loader = document.getElementById('loader')
+        const edit_btn = document.getElementById('edit-btn')
+
+        const formData = new FormData(userEditForm);
+
+        loader.classList.toggle("hidden");
+        edit_btn.disabled = true;
+        edit_btn.innerText = 'Saving'
+
+        fetch('/admin/edit-admin-account', {
+            method: 'PATCH',
+            body: formData
+        })
+            .then(data => {
+                 window.location.reload()
+
+            })
+            .catch(error => {
+                loader.classList.toggle("hidden");
+                edit_btn.disabled = false;
+                edit_btn.innerText = 'Saving'
+                console.error('Error:', error);
+            });
+      }
+
+</script>
+</body>
+{% endblock %}

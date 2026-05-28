@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+    {% include '/partials/favicons.html' %}
+    {% block title %}
+    {% endblock %}
+    {% include '/partials/scripts.html' %}
+
+</head>
+
+<body class="bg-[#F8F8F8] dark:bg-gray-900 text-text-color font-primary">
+{% include '/components/navbar.html' %}
+<div class="flex pt-16 overflow-hidden bg-gray-50 dark:bg-gray-900">
+
+    {% include '/components/sidebar.html' %}
+
+    <div id="main-content" class="relative w-full h-full overflow-y-auto bg-gray-50 lg:ml-64 dark:bg-gray-900">
+
+        <!-- BEGIN: Content-->
+        {% block content %}
+
+        {% endblock %}
+        <!-- END: Content-->
+
+<!--        {% include '/components/footer.html' %}-->
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
+<script src="{{ url_for('static', path='/js/sidebar.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+<script type="module" src="{{ url_for('static', path='/js/charts.js') }}"></script>
+<script src="{{ url_for('static', path='/js/dark-mode.js') }}"></script>
+
+<script>
+    feather.replace();
+    {% if flash_message %}
+    {% if flash_message['type'] == "error" %}
+    iziToast.error({
+        title: '',
+        message: " {{flash_message.message}}",
+        position: 'topRight'
+    });
+
+    {% else %}
+
+    iziToast.success({
+        title: '',
+        message: "{{flash_message.message}}",
+        position: 'topRight'
+    });
+    {% endif %}
+    {% endif %}
+</script>
+
+<script>
+    document.getElementById('tableSearch').addEventListener('keyup', function () {
+        console.log("searching");
+        let filter = this.value.toLowerCase();
+        let rows = document.querySelectorAll("table tbody tr");
+
+        rows.forEach(row => {
+            let text = row.textContent.toLowerCase();
+            if (text.includes(filter)) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        });
+    });
+</script>
+
+
+{% block js %}
+
+{% endblock %}
+</body>
+
+</html>

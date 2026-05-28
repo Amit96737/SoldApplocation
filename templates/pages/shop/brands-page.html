@@ -1,0 +1,436 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>Sold Admin - Brands</title>
+<script src="{{ url_for('static',path='js/pages/shop.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+
+<main class="h-full">
+    <div x-data="shopPage">
+        <div
+            class="px-5 pt-8 block sm:flex items-center justify-between lg:mt-1.5 bg-white dark:bg-gray-800 dark:border-gray-700">
+            <div class="w-full mb-1">
+                <div class="mb-6">
+                    <nav class="flex mb-5" aria-label="Breadcrumb">
+                        <ol class="inline-flex items-center space-x-1 text-sm font-medium md:space-x-2">
+                            <li class="inline-flex items-center">
+                                <a href="#"
+                                    class="inline-flex items-center text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-white">
+                                    <svg class="w-5 h-5 mr-2.5" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
+                                        </path>
+                                    </svg>
+                                    Home
+                                </a>
+                            </li>
+                            <li>
+                                <div class="flex items-center">
+                                    <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                    <a href="#"
+                                        class="ml-1 text-gray-700 hover:text-primary-600 md:ml-2 dark:text-gray-300 dark:hover:text-white capitalize">Shop
+                                        Management</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="flex items-center">
+                                    <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                    <span class="ml-1 text-gray-400 md:ml-2 dark:text-gray-500"
+                                        aria-current="page">Brands</span>
+                                </div>
+                            </li>
+                        </ol>
+                    </nav>
+                    <h3 class="text-[1.4rem] font-semibold text-gray-900 sm:text-2xl dark:text-white">Brands</h3>
+                </div>
+                <div class="sm:flex mb-5 justify-between">
+                    <div
+                        class="items-center hidden sm:flex sm:divide-x sm:divide-gray-100 sm:mb-0 dark:divide-gray-700">
+                        <form class="lg:pr-3" action="#" method="GET">
+                            <label class="sr-only">Search</label>
+                            <div class="relative lg:w-64 xl:w-96 flex items-center">
+
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none z-10">
+                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2"
+                                         viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M21 21l-4.35-4.35m0 0A7 7 0 104.64 4.64a7 7 0 0011.31 11.31z" />
+                                    </svg>
+                                </span>
+
+                                <div class="flex gap-2">
+                                    <input type="text" name="q"
+                                           value="{{ request.query_params.get('q', '') }}"
+                                           class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg w-80 pl-10 pr-3 py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                                           placeholder="Search brands">
+
+                                    <button type="submit"
+                                            class="px-4 ml-2 flex items-center py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700">
+                                        Search
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div>
+                        <button data-modal-target="add-color" data-modal-toggle="add-color"
+                            @click="resetAddBrand()"
+                            class="px-4 flex items-center py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700">
+                            Add New Brand
+                        </button>
+
+                        <div id="add-color" tabindex="-1" aria-hidden="true"
+                            class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                            <div class="relative p-4 w-full max-w-md max-h-full">
+                                <!-- Modal content -->
+                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                    <!-- Modal header -->
+                                    <div
+                                        class="flex  py-3 justify-between items-center border-b rounded-t dark:border-gray-600">
+                                        <h3 class="mx-5 text-lg text-gray-900 font-semibold dark:text-white">
+                                            Add New Brand
+                                        </h3>
+
+                                        <button type="button"
+                                            class="text-gray-400 mx-5 p-2 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm ml-auto inline-flex items-center dark:hover:bg-gray-700 dark:hover:text-white"
+                                            data-modal-toggle="add-color">
+                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd"
+                                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                    clip-rule="evenodd"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+
+                                    <!-- Modal body -->
+                                    <form id="addBrandForm" @submit.prevent="addNewBrand()">
+                                        <div class="grid gap-4 mb-4 grid-cols-2 p-4 md:p-5">
+                                            <div class="col-span-2">
+                                                <label for="brand-name"
+                                                    class="block mb-2 text-sm text-left font-medium text-gray-900 dark:text-white">
+                                                    Brand Name
+                                                </label>
+                                                <input type="text" name="brand-name" required pattern="\S+.*"
+                                                    class="py-2.5 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                            </div>
+
+
+                                        </div>
+
+                                        <div
+                                            class="items-center px-5 py-3 border-t border-gray-200 rounded-b dark:border-gray-700">
+                                            <button type="submit"
+                                                class="px-3 flex items-center py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700">
+                                                <svg :class="isLoading || 'hidden'" aria-hidden="true" role="status"
+                                                    class="inline w-4 h-4 me-3 text-white animate-spin"
+                                                    viewBox="0 0 100 101" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                                                        fill="#E5E7EB"></path>
+                                                    <path
+                                                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                                                        fill="currentColor"></path>
+                                                </svg>
+                                                Add Brand
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="px-4 py-5 dark:bg-gray-900">
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <table class="w-full text-[0.85rem] text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="px-6 py-4">
+                                SL
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Brand Name
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Status
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Featured
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-center">
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <template x-for="(brand, index) in filteredBrands" :key="brand['id']">
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50
+                                dark:hover:bg-gray-600">
+                                <th scope="row"
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    <a x-text="(index + 1)"></a>
+                                </th>
+
+                                <td class="px-6 py-4">
+                                    <a x-text="brand['name']"></a>
+                                </td>
+
+                                <td class="px-6 py-4">
+                                    <label class="inline-flex items-center cursor-pointer">
+                                        <input @click="updateBrandStatus(brand['id'])"
+                                            :id="'brand-status' + brand['id']" type="checkbox" value=""
+                                            class="sr-only peer" :checked='brand["enabled"]'>
+                                        <div
+                                            class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                                        </div>
+
+                                    </label>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <label class="inline-flex items-center cursor-pointer">
+                                        <input @click="updateBrandFeature(brand['id'])"
+                                            :id="'brand-feature' + brand['id']" type="checkbox" value=""
+                                            class="sr-only peer" :checked='brand["featured"]'>
+                                        <div
+                                            class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                                        </div>
+
+                                    </label>
+                                </td>
+                                <td class="px-6 w-20 py-4 text-center items-center">
+                                    <div class="flex space-x-2">
+                                        <button type="button"
+                                            @click="resetEditBrand(index)"
+                                            :data-modal-target="'edit-brand'+index"
+                                            :data-modal-toggle="'edit-brand'+index"
+                                            class="text-blue-700 border border-blue-700 hover:bg-blue-400 hover:text-white  font-medium rounded-lg text-sm p-2 text-center inline-flex items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white  dark:hover:bg-blue-500">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="feather feather-edit-2 w-4 h-4">
+                                                <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z">
+                                                </path>
+                                            </svg>
+                                        </button>
+
+                                        <button type="button" :data-modal-target="'delete-brand'+index"
+                                            :data-modal-toggle="'delete-brand'+index"
+                                            class=" text-red-700 border border-red-700 hover:bg-red-400 hover:text-white  font-medium rounded-lg text-sm p-2 text-center inline-flex items-center dark:border-red-500 dark:red-blue-500 dark:hover:text-white  dark:hover:bg-red-500">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="feather feather-trash-2">
+                                                <polyline points="3 6 5 6 21 6"></polyline>
+                                                <path
+                                                    d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                                </path>
+                                                <line x1="10" y1="11" x2="10" y2="17"></line>
+                                                <line x1="14" y1="11" x2="14" y2="17"></line>
+                                            </svg>
+                                        </button>
+                                    </div>
+
+                                    <div class="fixed left-0 right-0 z-50 items-center justify-center hidden overflow-x-hidden overflow-y-auto top-4 md:inset-0 h-modal sm:h-full"
+                                        :id="'delete-brand'+index">
+                                        <div class="relative w-full h-full max-w-md px-4 md:h-auto">
+                                            <!-- Modal content -->
+                                            <div class="relative bg-white rounded-lg shadow dark:bg-gray-800">
+                                                <!-- Modal header -->
+                                                <div class="flex justify-end p-2">
+                                                    <button type="button"
+                                                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-700 dark:hover:text-white"
+                                                        :data-modal-hide="'delete-brand'+index">
+                                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                                            xmlns="http://www.w3.org/2000/svg">
+                                                            <path fill-rule="evenodd"
+                                                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                                clip-rule="evenodd"></path>
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                                <!-- Modal body -->
+                                                <div class="p-6 pt-0 text-center">
+                                                    <svg class="w-16 h-16 mx-auto text-red-600" fill="none"
+                                                        stroke="currentColor" viewBox="0 0 24 24"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                                                        </path>
+                                                    </svg>
+                                                    <h3 class="mt-5 mb-6 text-lg text-gray-500 dark:text-gray-400">
+                                                        Are you sure you want to delete this
+                                                        brand?</h3>
+                                                    <button @click="deleteBrand(brand['id'])"
+                                                        class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2 dark:focus:ring-red-800">
+                                                        Yes, I'm sure
+                                                    </button>
+                                                    <a href="#"
+                                                        class="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 border border-gray-200 font-medium inline-flex items-center rounded-lg text-base px-3 py-2.5 text-center dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+                                                        :data-modal-hide="'delete-brand'+index">
+                                                        No, cancel
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div :id="'edit-brand'+index" tabindex="-1" aria-hidden="true"
+                                        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                                        <div class="relative p-4 w-full max-w-md max-h-full">
+                                            <!-- Modal content -->
+                                            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                                <!-- Modal header -->
+                                                <div
+                                                    class="flex  py-3 justify-between items-center border-b rounded-t dark:border-gray-600">
+                                                    <h3
+                                                        class="mx-5 text-lg text-gray-900 font-semibold dark:text-white">
+                                                        Edit Brand
+                                                    </h3>
+
+                                                    <button type="button"
+                                                        class="text-gray-400 mx-5 p-2 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm ml-auto inline-flex items-center dark:hover:bg-gray-700 dark:hover:text-white"
+                                                        :data-modal-toggle="'edit-brand'+index">
+                                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                                            xmlns="http://www.w3.org/2000/svg">
+                                                            <path fill-rule="evenodd"
+                                                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                                clip-rule="evenodd"></path>
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                                <!-- Modal body -->
+                                                <form :id="'editBrandForm'+brand['id']"
+                                                    @submit.prevent="editBrand(brand['id'])">
+                                                    <div class="grid gap-4 mb-4 grid-cols-2 p-4 md:p-5">
+                                                        <div class="col-span-2">
+                                                            <label for="brand-name"
+                                                                class="block mb-2 text-sm text-left font-medium text-gray-900 dark:text-white">Brand Name</label>
+                                                            <input type="text" name="brand-name" id="brand-name"
+                                                                class="py-2.5 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                                                :value="brand['name']" required>
+                                                        </div>
+                                                    </div>
+
+                                                    <div
+                                                        class="items-center px-5 py-3 border-t border-gray-200 rounded-b dark:border-gray-700">
+                                                        <button type="submit"
+                                                            class="px-3 flex items-center py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700">
+                                                            <svg :class="isLoading || 'hidden'" aria-hidden="true"
+                                                                role="status"
+                                                                class="inline w-4 h-4 me-3 text-white animate-spin"
+                                                                viewBox="0 0 100 101" fill="none"
+                                                                xmlns="http://www.w3.org/2000/svg">
+                                                                <path
+                                                                    d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                                                                    fill="#E5E7EB"></path>
+                                                                <path
+                                                                    d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                                                                    fill="currentColor"></path>
+                                                            </svg>
+                                                            Save
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+                <div class="flex justify-end mt-5 mb-5 space-x-1 text-sm">
+
+                    {% set total_pages = (total + limit - 1) // limit %}
+
+                    {# Previous #}
+                    {% if page > 1 %}
+                        <a href="?page={{ page - 1 }}&limit={{ limit }}"
+                           class="px-3 py-1 border rounded bg-white text-gray-700">
+                            Prev
+                        </a>
+                    {% endif %}
+
+                    {# First page #}
+                    <a href="?page=1&limit={{ limit }}"
+                       class="px-3 py-1 border rounded
+                       {% if page == 1 %} bg-blue-600 text-white {% else %} bg-white {% endif %}">
+                        1
+                    </a>
+
+                    {# Left dots #}
+                    {% if page > 4 %}
+                        <span class="px-2 py-1">...</span>
+                    {% endif %}
+
+                    {# Middle pages #}
+                    {% for p in range(page - 1, page + 2) %}
+                        {% if p > 1 and p < total_pages %}
+                            <a href="?page={{ p }}&limit={{ limit }}"
+                               class="px-3 py-1 border rounded
+                               {% if p == page %} bg-blue-600 text-white {% else %} bg-white {% endif %}">
+                                {{ p }}
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+
+                    {# Right dots #}
+                    {% if page < total_pages - 3 %}
+                        <span class="px-2 py-1">...</span>
+                    {% endif %}
+
+                    {# Last page #}
+                    {% if total_pages > 1 %}
+                        <a href="?page={{ total_pages }}&limit={{ limit }}"
+                           class="px-3 py-1 border rounded
+                           {% if page == total_pages %} bg-blue-600 text-white {% else %} bg-white {% endif %}">
+                            {{ total_pages }}
+                        </a>
+                    {% endif %}
+
+                    {# Next #}
+                    {% if page < total_pages %}
+                        <a href="?page={{ page + 1 }}&limit={{ limit }}"
+                           class="px-3 py-1 border rounded bg-white text-gray-700">
+                            Next
+                        </a>
+                    {% endif %}
+
+                </div>
+
+                <div :class="filteredBrands.length === 0 || 'hidden'"
+                    class="h-20 dark:bg-gray-800 w-full text-center flex items-center justify-center">
+                    <a class="text-lg">No Data Found</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+    let brands = {{ brands | tojson }};
+    let total = {{ total }};
+    let page = {{ page }};
+    let limit = {{ limit }};
+</script>
+{% endblock %}

@@ -1,0 +1,160 @@
+{% extends 'base.html' %} {% block title %}
+<title>Admin dashboard</title>
+{% endblock %} {% block content %}
+
+<body class="vertical-layout vertical-menu-modern navbar-floating footer-static" data-open="click"
+  data-menu="vertical-menu-modern" data-col="">
+  {% include 'header.html' %} {% include 'sidebar.html' %}
+
+  <!-- BEGIN: Content-->
+  <div class="app-content content">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper">
+      <div class="content-header row">
+        <div class="content-header-left col-md-9 col-12 mb-2">
+          <div class="row breadcrumbs-top">
+            <div class="col-12">
+              <h2 class="content-header-title float-left mb-0">Slider</h2>
+              <div class="breadcrumb-wrapper">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                  <li class="breadcrumb-item"><a href="#">Components</a></li>
+                  <li class="breadcrumb-item active">Slider</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="content-header-right text-md-right col-md-3 col-12 d-md-block d-none">
+          <div class="form-group breadcrumb-right">
+            <button onclick="onEditClicked()" class="btn btn-primary">
+              Add Slider
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="content-body" style="padding-top: 10px">
+        <div class="row" id="basic-table">
+          <div class="col-12">
+            <div class="card">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Slider</th>
+                      <th>Redirect Screen</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for slider in all_slider %}
+                    <tr>
+                      <td>
+                        <img class="rounded-sm" width="280" height="120" src="{{ slider.slider_image }}" />
+                      </td>
+                      <td><a>{{ slider.redirect_screen }}</a></td>
+                      <td>
+                        <div class="custom-control custom-control-primary custom-switch">
+                          <input onclick="onSwitchClicked('{{ slider.id }}')" type="checkbox" {% if slider.enabled %}
+                            checked {% endif %} class="custom-control-input" id="{{ slider.id }}" />
+                          <label class="custom-control-label" for="{{ slider.id }}"></label>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="dropdown">
+                          <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown">
+                            <i data-feather="more-vertical"></i>
+                          </button>
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item" onclick="onDeleteClicked('{{ slider.id }}')">
+                              <i data-feather="trash" class="mr-50"></i>
+                              <span>Delete</span>
+                            </a>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- END: Content-->
+
+  <div class="sidenav-overlay"></div>
+  <div class="drag-target"></div>
+
+  <!-- BEGIN: Footer-->
+  <footer class="footer footer-static footer-light">
+    <p class="clearfix mb-0">
+      <span class="float-md-left d-block d-md-inline-block mt-25">COPYRIGHT &copy; 2021<a class="ml-25"
+          href="https://1.envato.market/pixinvent_portfolio" target="_blank">Pixinvent</a><span
+          class="d-none d-sm-inline-block">, All rights Reserved</span></span><span
+        class="float-md-right d-none d-md-block">Hand-crafted & Made with<i data-feather="heart"></i></span>
+    </p>
+  </footer>
+  <button class="btn btn-primary btn-icon scroll-top" type="button">
+    <i data-feather="arrow-up"></i>
+  </button>
+  <!-- END: Footer-->
+
+  <!-- BEGIN: Vendor JS-->
+  <script src="{{ url_for('static', path='/vendors/js/vendors.min.js') }}"></script>
+  <!-- BEGIN Vendor JS-->
+
+  <!-- BEGIN: Theme JS-->
+  <script src="{{ url_for('static', path='/js/core/app-menu.js') }}"></script>
+  <script src="{{ url_for('static', path='/js/core/app.js') }}"></script>
+  <!-- END: Theme JS-->
+
+  <script>
+    $(window).on("load", function () {
+      if (feather) {
+        feather.replace({
+          width: 14,
+          height: 14,
+        });
+      }
+    });
+
+    function onEditClicked() {
+      window.location = "/admin/slider/add-new";
+    }
+
+    function onSwitchClicked(sliderId) {
+      console.log(sliderId);
+
+      fetch("/admin/slider/" + sliderId, {
+        method: "PATCH",
+      })
+        .then((data) => {
+          window.location.reload();
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    }
+
+    function onDeleteClicked(sliderId) {
+      console.log(sliderId);
+
+      fetch("/admin/slider/" + sliderId, {
+        method: "DELETE",
+      })
+        .then((data) => {
+          window.location.reload();
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    }
+  </script>
+</body>
+{% endblock %}

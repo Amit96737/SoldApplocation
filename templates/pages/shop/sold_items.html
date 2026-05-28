@@ -1,0 +1,421 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Sold Admin - Shop sold itmes</title>
+{% endblock %}
+
+{% block content %}
+<main class="h-full">
+    <div x-data="usersPage">
+        <div
+            class="px-5 pt-8 block sm:flex items-center justify-between lg:mt-1.5 bg-white dark:bg-gray-800 dark:border-gray-700">
+            <div class="w-full mb-1">
+                <div class="mb-6">
+                    <nav class="flex mb-5" aria-label="Breadcrumb">
+                        <ol class="inline-flex items-center space-x-1 text-sm font-medium md:space-x-2">
+                            <li class="inline-flex items-center">
+                                <a href="#"
+                                    class="inline-flex items-center text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-white">
+                                    <svg class="w-5 h-5 mr-2.5" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 
+                                            0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
+                                        </path>
+                                    </svg>
+                                    Home
+                                </a>
+                            </li>
+                            <li>
+                                <div class="flex items-center">
+                                    <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                    <a href="#"
+                                        class="ml-1 text-gray-700 hover:text-primary-600 md:ml-2 dark:text-gray-300 dark:hover:text-white">Shop
+                                        Management</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="flex items-center">
+                                    <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                    <span class="ml-1 text-gray-400 md:ml-2 dark:text-gray-500"
+                                        aria-current="page">Sold items</span>
+                                </div>
+                            </li>
+                        </ol>
+                    </nav>
+                    <h3 class="text-[1.4rem] font-semibold text-gray-900 sm:text-2xl dark:text-white">Sold Items
+                    </h3>
+                </div>
+                <div class="sm:flex mb-5 justify-between">
+                    <div
+                        class="items-center hidden sm:flex sm:divide-x sm:divide-gray-100 sm:mb-0 dark:divide-gray-700">
+                        <form class="lg:pr-3" action="#" method="GET">
+                            <label class="sr-only">Search</label>
+                            <div class="relative lg:w-64 xl:w-96 flex items-center">
+
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none z-10">
+                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2"
+                                         viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M21 21l-4.35-4.35m0 0A7 7 0 104.64 4.64a7 7 0 0011.31 11.31z" />
+                                    </svg>
+                                </span>
+
+                                <div class="flex gap-2">
+                                    <input type="text" name="q"
+                                           value="{{ request.query_params.get('q', '') }}"
+                                           class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg w-80 pl-10 pr-3 py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                                           placeholder="Search sold items">
+
+                                    <button type="submit"
+                                            class="px-4 ml-2 flex items-center py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700">
+                                        Search
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="px-4 py-5 dark:bg-gray-900">
+            <div class="flex flex-col">
+                <div class="overflow-x-auto  shadow-md sm:rounded-lg">
+                    <div class="inline-block min-w-full align-middle">
+                        <div class="overflow-hidden">
+                            <table
+                                class="min-w-full divide-y text-[0.85rem] text-left rtl:text-right text-gray-500 dark:text-gray-400 divide-gray-200 table-fixed 
+                                dark:divide-gray-600">
+                                <thead class=" text-gray-700 bg-gray-100 dark:bg-gray-700 dark:text-gray-400 text-xs">
+                                    <tr>
+                                        <th scope="col" class="px-4 py-4">
+                                            SL
+                                        </th>
+                                        <th scope="col" class="px-4 py-3">
+                                            Title
+                                        </th>
+                                        <th scope="col" class="px-4 py-3">
+                                            Price
+                                        </th>
+                                        <th scope="col" class="px-4 py-3">
+                                            Delivery Method
+                                        </th>
+                                        <th scope="col" class="px-4 py-3">
+                                            Payment Method
+                                        </th>
+                                        <th scope="col" class="p-4 whitespace-normal break-words max-w-xs">
+                                            Delivery Details
+                                        </th>
+                                        <th scope="col" class="px-4 py-3">
+                                            Ordered At
+                                        </th>
+                                        <th scope="col" class="px-4 py-3">
+                                            Ordered By
+                                        </th>
+                                        <th scope="col" class="px-4 py-3 w-40 whitespace-nowrap">
+                                            Status
+                                        </th>
+                                        <th scope="col" class="px-4 py-3 text-center">
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                                    {% for item in ShopItemsDb %}
+                                    <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                                        <td class="w-4 p-4">
+                                            <a>{{ loop.index }}</a>
+                                        </td>
+                                        <td class="p-4 whitespace-nowrap">
+                                            {{ item.shop_item.title }}
+                                        </td>
+                                        <td class="p-4 whitespace-nowrap">
+                                            {{ item.final_price }}
+                                        </td>
+                                        <td class="p-4 whitespace-nowrap">
+                                            {{ item.delivery_method }}
+                                        </td>
+                                        <td class="p-4 whitespace-nowrap">
+                                            {{ item.payment_method }}
+                                        </td>
+                                        <td class="p-4 whitespace-nowrap">
+                                            {{ item.delivery_details }}
+                                        </td>
+                                        <td class="p-4 whitespace-nowrap">
+                                            {{ item.shop_item.date_created.strftime('%m/%d/%Y %I:%M %p') }}
+                                        </td>
+                                        <td class="p-4 whitespace-nowrap">
+                                            {{ item.buyer.email_address }}
+                                        </td>
+                                        <td class="p-4 whitespace-nowrap w-40">
+                                            {{ item.sale_status.value }}
+                                        </td>
+                                        <td class="p-4 whitespace-nowrap">
+                                            <button 
+                                                type="button" 
+                                                data-modal-target="default-modal{{ loop.index }}" 
+                                                data-modal-toggle="default-modal{{ loop.index }}"
+                                                class="text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white 
+                                                       font-medium rounded-lg text-sm p-2 text-center inline-flex items-center 
+                                                       dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" 
+                                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
+                                                     stroke-linejoin="round" class="feather feather-eye">
+                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                    <circle cx="12" cy="12" r="3"></circle>
+                                                </svg>
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                    <!-- item details modal -->
+                                    <div id="default-modal{{loop.index}}" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 
+                                    justify-center items-center 
+                                    w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                                    <div class="relative w-full h-full max-w-2xl px-4 md:h-auto">
+                                        <!-- Modal content -->
+                                        <form>
+                                            <div
+                                                class="relative bg-white rounded-lg shadow dark:bg-gray-800">
+                                                <!-- Modal header -->
+
+                                                <!-- Modal header -->
+                                                <div
+                                                    class="flex  py-3 justify-between items-center border-b rounded-t dark:border-gray-700">
+                                                    <h3
+                                                        class="text-gray-900  mx-5 text-lg font-semibold dark:text-white">
+                                                        {{item.shop_item.title}} - Details
+                                                    </h3>
+
+                                                    <button type="button"
+                                                        class="text-gray-400 mx-5 p-2 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg 
+                                                        text-sm ml-auto inline-flex items-center dark:hover:bg-gray-700 dark:hover:text-white"
+                                                        data-modal-toggle="default-modal{{loop.index}}">
+                                                        <svg class="w-5 h-5" fill="currentColor"
+                                                            viewBox="0 0 20 20"
+                                                            xmlns="http://www.w3.org/2000/svg">
+                                                            <path fill-rule="evenodd"
+                                                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 
+                                                                0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                                clip-rule="evenodd"></path>
+                                                        </svg>
+                                                    </button>
+                                                </div>
+
+                                                <!-- Modal body -->
+                                                <div class="p-6 space-y-6">
+
+                                                    <div class="grid grid-cols-6 gap-6">
+                                                        <div class="col-span-6">
+                                                            <div
+                                                                class="items-center space-x-4 flex mb-5">
+                                                                <img class="rounded-lg w-24 h-24 object-fit"
+                                                                    src="{{item.shop_item.images|item_image_format}}"
+                                                                    x-ref="accountUploadImg"
+                                                                    alt="Jese picture">
+
+                                                                <div>
+                                                                    <a
+                                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Item Image</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-span-6 sm:col-span-3">
+                                                            <label for="username"
+                                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Colors</label>
+                                                            <input type="text" name="username"
+                                                                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 
+                                                                block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 
+                                                                :focus:border-primary-500"
+                                                                disabled value="{{item.shop_item.colors|list_to_str}}">
+                                                        </div>
+                                                        <div class="col-span-6 sm:col-span-3">
+                                                            <label for="fullname"
+                                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Size</label>
+                                                            <input type="text" name="fullname"
+                                                                value="{{item.shop_item.size}}"
+                                                                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 
+                                                                block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 
+                                                                dark:focus:border-primary-500"
+                                                                required disabled>
+                                                        </div>
+                                                        <div class="col-span-6 sm:col-span-3">
+                                                            <label for="address"
+                                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">State</label>
+                                                            <input type="text" name="address"
+                                                                value="{{item.shop_item.state}}"
+                                                                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 
+                                                                block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 
+                                                                dark:focus:border-primary-500"
+                                                                required disabled>
+                                                        </div>
+
+                                                        <div class="col-span-6 sm:col-span-3">
+                                                            <label for="country"
+                                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type</label>
+                                                            <input type="text" name="country"
+                                                                value="{{item.shop_item.type}}"
+                                                                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 
+                                                                block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 
+                                                                dark:focus:border-primary-500"
+                                                                disabled>
+                                                        </div>
+
+                                                        <div class="col-span-6 sm:col-span-3">
+                                                            <label 
+                                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Payment methods</label>
+                                                            <input type="text"
+                                                                value="{{item.shop_item.payment_methods|list_to_str}}"
+                                                                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 
+                                                                block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 
+                                                                dark:focus:border-primary-500"
+                                                                disabled>
+                                                        </div>
+
+                                                        <div class="col-span-6 sm:col-span-3">
+                                                            <label for="account-status"
+                                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Shipping methods
+                                                                </label>
+                                                                <input type="text"
+                                                                value="{{item.shop_item.shipping_methods|list_to_str}}"
+                                                                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 
+                                                                block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 
+                                                                dark:focus:border-primary-500"
+                                                                disabled>
+                                                        </div>
+
+                                                        <div class="col-span-6 sm:col-span-3">
+                                                            <label for="account-status"
+                                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Condition
+                                                                </label>
+                                                                <input type="text"
+                                                                value="{{item.shop_item.condition.value}}"
+                                                                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 
+                                                                block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 
+                                                                dark:focus:border-primary-500"
+                                                                disabled>
+                                                        </div>
+
+
+                                                        <div class="col-span-6 sm:col-span-3">
+                                                            <label for="account-status"
+                                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Hash Tags
+                                                                </label>
+                                                                <input type="text"
+                                                                value="{{item.shop_item.hash_tags|list_to_str}}"
+                                                                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 
+                                                                block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 
+                                                                dark:focus:border-primary-500"
+                                                                disabled>
+                                                        </div>
+
+                                                        <div class="col-span-6">
+                                                            <label for="about"
+                                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                                                            <textarea id="about" rows="4"
+                                                                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 
+                                                                focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500
+                                                                 dark:focus:border-primary-500" disabled> {{item.shop_item.description}}
+                                                            </textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Modal footer -->
+                                                <div
+                                                    class="items-center px-5 py-3 border-t border-gray-200 rounded-b dark:border-gray-700">
+                                                    <button type="button" data-modal-toggle="default-modal{{loop.index}}"
+                                                        class="px-3 flex items-center py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 dark:bg-blue-600 
+                                                        dark:hover:bg-blue-700" data-modal-hide="static-modal">
+                                                        Close
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    </div>
+
+                                    <!-- end item detials modal -->
+
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <div class="flex justify-end mt-5 mb-5 space-x-1 text-sm">
+
+                                {# Previous #}
+                                {% if page > 1 %}
+                                    <a href="?page={{ page - 1 }}&limit={{ limit }}{% if q %}&q={{ q }}{% endif %}"
+                                       class="px-3 py-1 border rounded bg-white text-gray-700">
+                                       Prev
+                                    </a>
+                                {% endif %}
+
+                                {# First page #}
+                                <a href="?page=1&limit={{ limit }}{% if q %}&q={{ q }}{% endif %}"
+                                   class="px-3 py-1 border rounded
+                                   {% if page == 1 %} bg-blue-600 text-white {% else %} bg-white {% endif %}">
+                                   1
+                                </a>
+
+                                {# Left dots #}
+                                {% if page > 4 %}
+                                    <span class="px-2 py-1">...</span>
+                                {% endif %}
+
+                                {# Middle pages #}
+                                {% for p in range(page-1, page+2) %}
+                                    {% if p > 1 and p < total_pages %}
+                                        <a href="?page={{ p }}&limit={{ limit }}{% if q %}&q={{ q }}{% endif %}"
+                                           class="px-3 py-1 border rounded
+                                           {% if p == page %} bg-blue-600 text-white {% else %} bg-white {% endif %}">
+                                           {{ p }}
+                                        </a>
+                                    {% endif %}
+                                {% endfor %}
+
+                                {# Right dots #}
+                                {% if page < total_pages - 3 %}
+                                    <span class="px-2 py-1">...</span>
+                                {% endif %}
+
+                                {# Last page #}
+                                {% if total_pages > 1 %}
+                                    <a href="?page={{ total_pages }}&limit={{ limit }}{% if q %}&q={{ q }}{% endif %}"
+                                       class="px-3 py-1 border rounded
+                                       {% if page == total_pages %} bg-blue-600 text-white {% else %} bg-white {% endif %}">
+                                       {{ total_pages }}
+                                    </a>
+                                {% endif %}
+
+                                {# Next #}
+                                {% if page < total_pages %}
+                                    <a href="?page={{ page + 1 }}&limit={{ limit }}{% if q %}&q={{ q }}{% endif %}"
+                                       class="px-3 py-1 border rounded bg-white text-gray-700">
+                                       Next
+                                    </a>
+                                {% endif %}
+
+                            </div>
+                            <!-- <div :class="filteredUsers.length === 0 || 'hidden'"
+                                class="h-20 dark:bg-gray-800 w-full text-center flex items-center justify-center">
+                                <a class="text-lg">No Data Found</a>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+

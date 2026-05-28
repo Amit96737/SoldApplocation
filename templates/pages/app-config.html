@@ -1,0 +1,396 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Sold Admin - App Config</title>
+<script src="{{ url_for('static',path='js/pages/app-config.js') }}"></script>
+
+{% endblock %}
+
+{% block content %}
+
+<main x-data="appConfigPage">
+    <div
+        class="px-5 pt-8 block sm:flex bg-white items-center justify-between lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700">
+        <div class="w-full mb-1">
+            <div class="mb-6">
+                <nav class="flex mb-5" aria-label="Breadcrumb">
+                    <ol class="inline-flex items-center space-x-1 text-sm font-medium md:space-x-2">
+                        <li class="inline-flex items-center">
+                            <a href="#"
+                                class="inline-flex items-center text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-white">
+                                <svg class="w-5 h-5 mr-2.5" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
+                                    </path>
+                                </svg>
+                                Home
+                            </a>
+                        </li>
+                        <li>
+                            <div class="flex items-center">
+                                <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <a href="#"
+                                    class="ml-1 text-gray-700 hover:text-primary-600 md:ml-2 dark:text-gray-300 dark:hover:text-white">Administrator</a>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="flex items-center">
+                                <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="ml-1 text-gray-400 md:ml-2 dark:text-gray-500" aria-current="page">App
+                                    configs</span>
+                            </div>
+                        </li>
+                    </ol>
+                </nav>
+                <h3 class="text-[1.4rem] font-semibold text-gray-900 sm:text-2xl dark:text-white">App Configurations
+                </h3>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="px-4 pt-5 dark:bg-gray-900">
+        <div>
+            <div
+                class="divide-y mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700  dark:bg-gray-800">
+                <div class="py-3.5">
+                    <h3 class="ml-5 text-gray-900 text-lg font-semibold dark:text-white">App Information</h3>
+                </div>
+                <form class="validate-form p-4 sm:p-6" x-ref="appConfigForm" @submit.prevent="updateAppConfig()">
+                    <div class="grid grid-cols-6 gap-y-5 gap-x-6">
+                        <div class="col-span-6 sm:col-span-2">
+                            <label for="app-name"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">App
+                                Name</label>
+                            <input type="text" name="app-name" id="app-name" value="{{ app_config.app_name }}"
+                                class="py-2.5.5 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                placeholder=" " required>
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-2">
+                            <label for="app-icon"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">App
+                                Icon</label>
+                            <input type="file" accept="image/*" ref class="hidden" @change="uploadImage($event)"
+                                name="app_icon" id="app-icon">
+
+                            <label for="app-icon" type="text" id="app-icon"
+                                class="shadow-sm p-[0.235rem] bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg  block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                <div class="flex items-center p-0 space-x-2">
+                                    <img class="rounded-lg w-9 h-9 object-fit" src="{{ app_config.app_icon }}"
+                                        x-ref="accountUploadImg" alt="Jese picture">
+                                    <a x-text="selectedFileName === '' ? 'select a logo' : selectedFileName"
+                                        class="">choose a file</a>
+                                </div>
+                            </label>
+
+                        </div>
+                        <div class="col-span-6 sm:col-span-2">
+                            <label for="support-email"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Support
+                                Email</label>
+                            <input type="email" name="support-email" id="support-email"
+                                value="{{ app_config.support_email }}"
+                                class="py-2.5 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                placeholder="" required>
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-2">
+                            <label for="support-phone"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Support
+                                Phone</label>
+                            <div class="flex items-center">
+                                <button id="dropdown-phone-button" data-dropdown-toggle="dropdown-phone"
+                                    class="flex-shrink-0 z-10 inline-flex items-center py-[0.745rem] px-2 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white dark:border-gray-600"
+                                    type="button">
+
+                                    +972
+                                    <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2" d="m1 1 4 4 4-4"></path>
+                                    </svg>
+                                </button>
+                                <div id="dropdown-phone"
+                                    class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-52 dark:bg-gray-700">
+                                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                        aria-labelledby="dropdown-phone-button">
+                                        <li>
+                                            <button type="button"
+                                                class="inline-flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600 dark:hover:text-white"
+                                                role="menuitem">
+                                                <span class="inline-flex items-center">
+                                                    Isreal (+972)
+                                                </span>
+                                            </button>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                                <div class="relative w-full">
+                                    <input type="tel" name="support-phone" id="support-phone"
+                                        value="{{ app_config.support_number }}"
+                                        class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-0 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+                                        pattern="[0-9]{1-3}-[0-9]{3}-[0-9]{4}" placeholder="1-456-7890" required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-2">
+                            <label for="currency-symbol"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Currency
+                                Symbol</label>
+                            <input type="text" name="currency-symbol" pattern="[$€£¥₪₹]" id="currency-symbol"
+                                maxlength="1" value="{{ app_config.currency_symbol }}"
+                                class="py-2.5 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                placeholder="" required>
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-2">
+                            <label for="shipping-fee"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Shipping
+                                Fee</label>
+                            <input type="number" step=".01" name="shipping-fee" id="shipping-fee"
+                                value="{{ app_config.shipping_fee }}"
+                                class="py-2.5 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                placeholder="" required>
+                        </div>
+
+
+                        <div class="col-span-6 sm:col-span-2">
+                            <label for="shipping-fee"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Seller
+                                Message </label>
+                            <input type="text" name="seller-msg" id="seller-msg"
+                                value="{{ app_config.seller_msg }}"
+                                class="py-2.5 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                placeholder="" required>
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-2">
+                            <label for="featured-dressing-price"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                Featured Dressing Price</label>
+                            <input type="number" step=".01" name="featured-dressing-price" id="featured-dressing-price"
+                                value="{{ app_config.featured_dressing_price }}"
+                                   class="py-2.5 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                placeholder="" required>
+                        </div>
+
+                        <div class="col-span-6 sm:col-full mt-5">
+                            <button type="submit"
+                                class="px-3 flex items-center py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700">
+                                <svg :class="isLoading || 'hidden'" aria-hidden="true" role="status"
+                                    class="inline w-4 h-4 me-3 text-white animate-spin" viewBox="0 0 100 101"
+                                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                                        fill="#E5E7EB"></path>
+                                    <path
+                                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                                        fill="currentColor"></path>
+                                </svg>
+                                Save changes
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div
+                class="mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700  dark:bg-gray-800">
+                <div class="py-3.5">
+                    <h3 class="ml-5 text-lg font-semibold dark:text-white">Payments Methods</h3>
+                </div>
+                <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                    <table class="w-full text-[0.85rem] text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                        <thead class="text-xs text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th scope="col" class="px-6 py-4">
+                                    ID
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Method name
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Icon
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Status
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-center">
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {% for method in payment_methods %}
+                            <tr
+                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                <th class="px-6 py-4 w-10 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    #{{ method.id.split('-')[0] }}
+                                </th>
+                                <td class="px-6 py-4">
+                                    {{ method.name }}
+                                </td>
+                                <td class="px-6  py-4">
+                                    <img class="rounded-lg w-9 sm:h-9 object-fit" src="{{ method.icon }}"
+                                        alt="{{ method.name }}">
+                                </td>
+                                <td class="px-6 pt-3">
+                                    <label class="inline-flex items-center cursor-pointer">
+                                        <input @click="updatePaymentMethodStatus('{{ method.id }}')"
+                                            id="pm-{{ method.id }}" type="checkbox" value="" class="sr-only peer"
+                                            :checked='{{ method.enabled  | tojson }}'>
+                                        <div
+                                            class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                                        </div>
+
+                                    </label>
+                                </td>
+                                <td class="px-6 w-20 py-4 text-center items-center">
+
+
+                                    <div class="flex">
+                                        <button type="button" data-modal-target="edit-user-modal{{ method.id }}"
+                                            data-modal-toggle="edit-user-modal{{ method.id }}"
+                                            class="text-blue-700 border border-blue-700 hover:bg-blue-400 hover:text-white  font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white  dark:hover:bg-blue-500">
+                                            <i class="w-4 h-4" data-feather="edit-2"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <!-- Edit Config Modal -->
+                            <div id="edit-user-modal{{ method.id }}" tabindex="-1" aria-hidden="true"
+                                class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                                <div class="relative p-4 w-full max-w-md max-h-full">
+                                    <!-- Modal content -->
+                                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-800">
+                                        <!-- Modal header -->
+                                        <div
+                                            class="flex  py-3 justify-between items-center border-b rounded-t dark:border-gray-700">
+                                            <h3 class="text-gray-900  mx-5 text-lg font-semibold dark:text-white">
+                                                Edit Payment Method
+                                            </h3>
+
+                                            <button type="button"
+                                                class="text-gray-400 mx-5 p-2 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm ml-auto inline-flex items-center dark:hover:bg-gray-700 dark:hover:text-white"
+                                                data-modal-toggle="edit-user-modal{{ method.id }}">
+                                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd"
+                                                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                        clip-rule="evenodd"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <!-- Modal body -->
+                                        <div x-data="{
+                                            uploadImage(event) {
+                                                    const files = event.target.files;
+                                                    if (files.length > 0) {
+                                                        const reader = new FileReader();
+                                                        reader.onload = () => {
+                                                            this.$refs.accountUploadImg.src = reader.result;
+                                                            this.selectedFileName = event.target.files[0].name
+                                                        };
+                                                        reader.readAsDataURL(files[0]);
+                                                    }
+                                                }
+                                            }" class="p-5">
+                                            <form x-ref="pmForm" @submit.prevent="updatePM('{{ method.id }}')">
+                                                <div class="grid grid-cols-6 gap-6">
+                                                    <div class="col-span-6">
+                                                        <label for="name"
+                                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Payment
+                                                            Method Name</label>
+                                                        <input type="text" name="name" value="{{ method.name }}"
+                                                            id="name"
+                                                            class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                                            placeholder="" required>
+                                                    </div>
+                                                    <div class="col-span-6">
+                                                        <a
+                                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Payment
+                                                            Method Logo</a>
+                                                        <div class="items-center space-x-4 flex mb-5">
+                                                            <img class="rounded-lg w-24 h-24 object-fit"
+                                                                src="{{ method.icon }}" x-ref="accountUploadImg"
+                                                                alt="Jese picture">
+
+                                                            <div>
+                                                                <div
+                                                                    class="mb-4 text-sm text-gray-500 dark:text-gray-400">
+                                                                    JPG or PNG. Max size of 800K
+                                                                </div>
+                                                                <div class="flex items-center space-x-4">
+
+                                                                    <label for="account-upload"
+                                                                        class="px-3 cursor-pointer flex items-center py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700">
+                                                                        <svg class="w-4 h-4 mr-2 -ml-1"
+                                                                            fill="currentColor" viewBox="0 0 20 20"
+                                                                            xmlns="http://www.w3.org/2000/svg">
+                                                                            <path
+                                                                                d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13H5.5z">
+                                                                            </path>
+                                                                            <path d="M9 13h2v5a1 1 0 11-2 0v-5z"></path>
+                                                                        </svg>
+                                                                        Upload icon
+                                                                    </label>
+                                                                    <input type="file" name="icon"
+                                                                        @change="uploadImage($event)"
+                                                                        id="account-upload" hidden accept="image/*" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        <!-- Modal footer -->
+                                        <div
+                                            class="items-center px-5 py-3 border-t border-gray-200 rounded-b dark:border-gray-700">
+                                            <button type="submit"
+                                                class="px-3 flex items-center py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700">
+                                                <svg :class="isLoading || 'hidden'" aria-hidden="true" role="status"
+                                                    class="inline w-4 h-4 me-3 text-white animate-spin"
+                                                    viewBox="0 0 100 101" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                                                        fill="#E5E7EB"></path>
+                                                    <path
+                                                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                                                        fill="currentColor"></path>
+                                                </svg>
+                                                Save changes
+                                            </button>
+                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title> Admin dashboard </title>
+{% endblock %}
+
+{% block content %}
+
+<body class="vertical-layout vertical-menu-modern  navbar-floating footer-static  " data-open="click"
+    data-menu="vertical-menu-modern" data-col="">
+
+    {% include 'header.html' %}
+
+    {% include 'sidebar.html' %}
+
+    <!-- BEGIN: Content-->
+
+    <div class="app-content content ">
+        <div class="content-overlay"></div>
+        <div class="header-navbar-shadow"></div>
+        <div class="content-wrapper">
+            <div class="content-header row">
+                <div class="content-header-left col-md-9 col-12 mb-2">
+                    <div class="row breadcrumbs-top">
+                        <div class="col-12">
+                            <h2 class="content-header-title float-left mb-0">Add Slider</h2>
+                            <div class="breadcrumb-wrapper">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="index.html">Home</a>
+                                    </li>
+                                    <li class="breadcrumb-item"><a href="#">Silder</a>
+                                    </li>
+                          
+                                    <li class="breadcrumb-item active">Add new slider
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-body">
+                <!-- Blog Edit -->
+                <div class="blog-edit-wrapper">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="card">
+                                <div class="card-body">
+                                  
+                                    <form id="slider-form" class="mt-2">
+                                        <div class="row">
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group mb-2">
+                                                    <label for="redirect-screen">Redirect Screen</label>
+                                                    <select class="form-control" name="redirect_screen" id="redirect-screen" required>
+                                                        <option value="/shop/add-item">/shop/add-item</option>
+                                                        <option value="/cms?slug=sold-guide">/cms?slug=sold-guide</option>
+                                                        <option value="/profile/account">/profile/account</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 mb-2">
+                                                <div class="border rounded p-1">
+                                                        <img src="https://placehold.co/400x170" id="slider-image-placeholder" class="rounded mr-2 mb-1 mb-md-0" height="170" width="400" alt="Blog Featured Image" />
+                                                </div>
+                                            </div>
+                                            <div class="media-body">
+                                                <div class="block">
+                                                    <div class=" d-flex justify-content-center align-items-center flex-column">
+                                                        <small class="text-muted">Required image resolution 800x400, image size 10mb.</small>
+                                                        <label for="slider-image" class="btn btn-md btn-primary mb-75 mr-75 mt-75 px-3">Upload</label>
+                                                        <input type="file" name="slider_image" id="slider-image" hidden accept="image/*" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12" style="padding-top: 2rem;">
+                                                <button class="btn btn-primary" id="loading-btn" type="submit">
+                                                    <span class="spinner-border spinner-border-sm hidden"
+                                                        id="loading-spinner" role="status" aria-hidden="true"></span>
+                                                    <span class="ml-25 align-middle" id="add-btn">Add Slider</span>
+                                                </button>
+                                                <button type="reset" class="btn btn-secondary">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <!--/ Form -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/ Blog Edit -->
+
+            </div>
+        </div>
+    </div>
+    <!-- END: Content-->
+
+    <div class="sidenav-overlay"></div>
+    <div class="drag-target"></div>
+
+    <!-- BEGIN: Footer-->
+    <footer class="footer footer-static footer-light">
+        <p class="clearfix mb-0"><span class="float-md-left d-block d-md-inline-block mt-25">COPYRIGHT &copy; 2021<a
+                    class="ml-25" href="https://1.envato.market/pixinvent_portfolio" target="_blank">Pixinvent</a><span
+                    class="d-none d-sm-inline-block">, All rights Reserved</span></span><span
+                class="float-md-right d-none d-md-block">Hand-crafted & Made with<i data-feather="heart"></i></span></p>
+    </footer>
+    <button class="btn btn-primary btn-icon scroll-top" type="button"><i data-feather="arrow-up"></i></button>
+    <!-- END: Footer-->
+
+
+
+
+   
+    <!-- BEGIN: Vendor JS-->
+    <script src="{{ url_for('static', path='/vendors/js/vendors.min.js') }}"></script>
+    <script src="{{ url_for('static', path='/vendors/js/extensions/toastr.min.js') }}"></script>
+    <!-- BEGIN Vendor JS-->
+
+    <!-- BEGIN: Page Vendor JS-->
+    <script src="{{ url_for('static', path='/vendors/js/forms/select/select2.full.min.js') }}"></script>
+    <script src="{{ url_for('static', path='/vendors/js/editors/quill/katex.min.js') }}"></script>
+    <script src="{{ url_for('static', path='/vendors/js/editors/quill/highlight.min.js') }}"></script>
+    <script src="{{ url_for('static', path='/vendors/js/editors/quill/quill.min.js') }}"></script>
+    <!-- END: Page Vendor JS-->
+
+    <!-- BEGIN: Theme JS-->
+    <script src="{{ url_for('static', path='/js/core/app-menu.js') }}"></script>
+    <script src="{{ url_for('static', path='/js/core/app.js') }}"></script>
+    <!-- END: Theme JS-->
+
+    <!-- BEGIN: Page JS-->
+    <script src="{{ url_for('static', path='/js/scripts/pages/page-blog-edit.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
+
+    <!-- END: Page JS-->
+
+
+    <script>
+        $(window).on('load', function () {
+            if (feather) {
+                feather.replace({
+                    width: 14,
+                    height: 14
+                });
+            }
+        })
+
+    const user_img = document.getElementById("slider-image")
+    const img_placeholder = document.getElementById("slider-image-placeholder")
+
+    user_img.onchange = evt => {
+        const [file] = user_img.files
+        if (file) {
+            img_placeholder.src = URL.createObjectURL(file)
+        }
+    }
+
+        const select = $('#redirect-screen');
+
+        select.each(function () {
+            var $this = $(this);
+            $this.wrap('<div class="position-relative"></div>');
+
+            $this.select2({
+                minimumResultsForSearch: Infinity,
+                dropdownAutoWidth: true,
+                dropdownParent: $this.parent()
+            });
+        });
+
+        select.val('').trigger('change');
+
+
+    const sliderForm = document.getElementById('slider-form');
+    sliderForm.addEventListener('submit', addNewSlider);
+
+
+    function addNewSlider(event) {
+        event.preventDefault();
+
+        const loader = document.getElementById('loading-spinner')
+        const add_btn = document.getElementById('add-btn')
+
+        const formData = new FormData(sliderForm);
+
+        loader.classList.toggle("hidden");
+        add_btn.disabled = true;
+        add_btn.innerText = 'Saving'
+
+        fetch('/admin/slider/add-new', {
+            method: 'POST',
+            body: formData
+        })
+            .then(data => {
+                 window.location = "/admin/slider";
+
+            })
+            .catch(error => {
+                loader.classList.toggle("hidden");
+                add_btn.disabled = false;
+                add_btn.innerText = 'Saving'
+                console.error('Error:', error);
+            });
+      }
+       
+
+    </script>
+</body>
+{% endblock %}

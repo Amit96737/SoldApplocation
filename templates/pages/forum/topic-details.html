@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Sold Admin - Banners</title>
+<script src="{{ url_for('static',path='js/pages/forum-topics.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+
+<main x-data="forumTopicsPage" class="h-full">
+    <div>
+        <div class="px-4 pt-7 dark:bg-gray-900 ">
+            <div class="flex p-5 flex-col sm:items-center sm:flex-row space-y-4 sm:space-y-0 sm:space-x-5 dark:divide-gray-500 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700  dark:bg-gray-800">
+                <div class="rounded-lg ">
+                    <div id="gallery" class="relative w-full sm:w-72" data-carousel="slide">
+                        <!-- Carousel wrapper -->
+                        <div class="relative bg-black shadow-sm h-60 sm:h-48 overflow-hidden rounded-lg">
+                            <!-- Item 1 -->
+
+                            {% for image in forum_topic.images %}
+                            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                                <img src="{{ image }}"
+                                    class="absolute block max-w-full object-cover h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+                                    alt="">
+                            </div>
+                            {% endfor %}
+
+                        </div>
+                        <!-- Slider controls -->
+                        <button type="button"
+                            class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+                            data-carousel-prev>
+                            <span
+                                class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                                <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="M5 1 1 5l4 4" />
+                                </svg>
+                                <span class="sr-only">Previous</span>
+                            </span>
+                        </button>
+                        <button type="button"
+                            class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+                            data-carousel-next>
+                            <span
+                                class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                                <svg class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="m1 9 4-4-4-4" />
+                                </svg>
+                                <span class="sr-only">Next</span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <h4 class="text-[1.2rem] max-w-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">{{
+                        forum_topic.title }}</h4>
+                    <div class="flex items-center space-x-2 whitespace-nowrap">
+                        <img src="{{forum_topic.user_profile_pic}}"
+                            class="w-10 h-10 rounded-full">
+                        <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
+                            <div class="text-base font-semibold text-gray-900 dark:text-white">
+                                {{forum_topic.user_fullname}}
+
+                            </div>
+                            <div class="text-sm font-normal text-gray-500 dark:text-gray-400">
+                                {{forum_topic.user_username}}
+
+                            </div>
+                        </div>
+                    </div>
+                    <p x-data="{ date: new Date('{{forum_topic.date_created}}') }" class="dark:text-white text-md">
+                        Posted on :
+                        <span x-text="new Intl.DateTimeFormat('en-US', {
+                                            year: 'numeric', month: 'short', day: 'numeric'
+                                            }).format(date)">
+                        </span>
+                    </p>
+
+                    <p class="dark:text-white text-md">Comments : {{forum_topic.comment_count}} </p>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="px-4 pt-5 dark:bg-gray-900">
+            <div
+                class="divide-y mb-4 dark:divide-gray-500 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700  dark:bg-gray-800">
+                <div class="py-3.5">
+                    <h3 class="ml-5 text-gray-900 text-lg font-semibold dark:text-white">Description</h3>
+                </div>
+                <p class="dark:text-white text-md p-5">{{forum_topic.description}}</p>
+            </div>
+        </div>
+
+    </div>
+</main>
+<script>
+    let forum_topics = []
+</script>
+{% endblock %}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PayPal Payment</title>
+  <script>
+    async function createPayment() {
+      const planId = "bc26d2b6-2236-42d8-8a2f-c1d73e29c68e";
+
+      const response = await fetch("http://127.0.0.1:8002/api/v1/payment/create-subscription-payment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan_id: planId })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const approvalUrl = data.links.find(link => link.rel === "approval_url").href;
+        window.location.href = approvalUrl;
+      } else {
+        const error = await response.text();
+        alert("Payment creation failed: " + error);
+      }
+    }
+  </script>
+</head>
+<body>
+  <h1>Pay with PayPal (Plan)</h1>
+  <button onclick="createPayment()">Subscribe Plan</button>
+</body>
+</html>

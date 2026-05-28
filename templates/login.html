@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Sign in Page</title>
+{% endblock %}
+
+{% block content %}
+
+<body class="vertical-layout vertical-menu-modern blank-page navbar-floating footer-static  " data-open="click"
+    data-menu="vertical-menu-modern" data-col="blank-page">
+    <div class="app-content content ">
+        <div class="content-overlay"></div>
+        <div class="header-navbar-shadow"></div>
+        <div class="content-wrapper">
+            <div class="content-header row">
+            </div>
+            <div class="content-body">
+                <div class="auth-wrapper auth-v1 px-2">
+                    <div class="auth-inner py-2">
+                        <div class="card mb-0">
+                            <div class="card-body">
+                                <a href="javascript:void(0);" class="brand-logo">
+
+                                    <h2 class="brand-text text-primary ml-1">Sold App Admin</h2>
+                                </a>
+
+                                <h4 class="card-title mb-1">Welcome Admin! 👋</h4>
+                                <p class="card-text mb-2">Please sign-in to sold admin panel</p>
+
+                                <form class="auth-login-form mt-2" method="POST">
+                                    <div class="form-group">
+                                        <label for="email-address" class="form-label">Email</label>
+                                        <input type="text" class="form-control" id="email-address" name="email_address"
+                                            placeholder="john@example.com" tabindex="1" autofocus />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="d-flex justify-content-between">
+                                            <label for="login-password">Password</label>
+                                        </div>
+                                        <div class="input-group input-group-merge form-password-toggle">
+                                            <input type="password" class="form-control form-control-merge"
+                                                id="login-password" name="password" tabindex="2"
+                                                placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                                aria-describedby="login-password" />
+                                            <div class="input-group-append">
+                                                <span class="input-group-text cursor-pointer"><i
+                                                        data-feather="eye"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="custom-control custom-checkbox">
+                                            <input class="custom-control-input toast-basic-toggler" name="my_checkbox"
+                                                type="checkbox" id="remember-me" tabindex="3" />
+                                            <label class="custom-control-label" for="remember-me"> Remember Me </label>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-block" tabindex="4">Sign
+                                        in</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast toast-basic position-fixed fade hide" role="alert" aria-live="assertive" aria-atomic="true"
+        data-delay="5000" style="top: 1rem; right: 1rem">
+        <div class="toast-header">
+            <img src="../../../app-assets/images/logo/logo.png" class="mr-1" alt="Toast image" height="18" width="25">
+            <strong class="mr-auto">Vue Admin</strong>
+            <small class="text-muted">11 mins ago</small>
+            <button type="button" class="ml-1 close" data-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="toast-body">Hello, world! This is a toast message. Hope you're doing well.. :)</div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
+
+
+    <script src="https://sold.csdevhub.com/static/vendors/js/vendors.min.js"></script>
+    <script src="https://sold.csdevhub.com/static/vendors/js/forms/validation/jquery.validate.min.js"></script>
+    <script src="https://sold.csdevhub.com/static/js/core/app-menu.js"></script>
+    <script src="https://sold.csdevhub.com/static/js/core/app.js"></script>
+    <script src="https://sold.csdevhub.com/static/js/scripts/pages/page-auth-login.js"></script>
+
+    
+    <script src="{{ url_for('static', path='vendors/js/vendors.min.js') }}"></script>
+<script src="{{ url_for('static', path='vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
+<script src="{{ url_for('static', path='js/core/app-menu.js') }}"></script>
+<script src="{{ url_for('static', path='js/core/app.js') }}"></script>
+<script src="{{ url_for('static', path='js/scripts/pages/page-auth-login.js') }}"></script>
+
+    <script>
+
+        $(window).on('load', function () {
+            if (feather) {
+                feather.replace({
+                    width: 14,
+                    height: 14
+                });
+            }
+        })
+
+        {% if flash_message %}
+        {% if flash_message.type == 'error' %}
+        iziToast.error({
+            title: '',
+            message: "{{flash_message.message}}",
+            position: 'topRight'
+        });
+        {% endif %}
+
+        {% if flash_message.type == 'success' %}
+        iziToast.success({
+            title: '',
+            message: "{{flash_message.message}}",
+            position: 'topRight'
+        });
+        {% endif %}
+
+
+        {% endif %}
+
+
+
+    </script>
+</body>
+{% endblock %}

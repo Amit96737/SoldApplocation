@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title> Sold Admin - Language </title>
+{% endblock %}
+
+{% block content %}
+
+<body class="vertical-layout vertical-menu-modern  navbar-floating footer-static  " data-open="click"
+    data-menu="vertical-menu-modern" data-col="">
+
+    {% include 'header.html' %}
+
+    {% include 'sidebar.html' %}
+
+    <!-- BEGIN: Content-->
+    <div class="app-content content ">
+        <div class="content-overlay"></div>
+        <div class="header-navbar-shadow"></div>
+        <div class="content-wrapper">
+            <div class="content-header row">
+                <div class="content-header-left col-md-9 col-12 mb-2">
+                    <div class="row breadcrumbs-top">
+                        <div class="col-12">
+                            <h2 class="content-header-title float-left mb-0">Notification</h2>
+                            <div class="breadcrumb-wrapper">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="index.html">Home</a>
+                                    </li>
+                                    <li class="breadcrumb-item"><a href="#">Forms</a>
+                                    </li>
+                                    <li class="breadcrumb-item active">Notification
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="blog-edit-wrapper">
+            <div class="row">
+                <div class="col-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <form id="add-notification-form" class="mt-2">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group mb-2">
+                                            <label for="redirect-screen">Notification Title</label>
+                                            <input type="text" name="title" id="blog-edit-title" class="form-control"
+                                                required />
+                                        </div>
+
+                                        <label>Notification Description</label>
+
+                                        <div class="form-label-group mb-0">
+                                            <textarea data-length="100" class="form-control char-textarea"
+                                                id="description" name="description" rows="3"
+                                                placeholder="Counter"></textarea>
+
+                                        </div>
+                                        <small class="textarea-counter-value float-right"><span
+                                                class="char-count">0</span> / 100 </small>
+                                    </div>
+
+
+                                </div>
+                                <div class="col-12" style="padding-top: 2rem;">
+                                    <button class="btn btn-primary" id="loading-btn" type="submit">
+                                        <span class="spinner-border spinner-border-sm hidden" id="loading-spinner"
+                                            role="status" aria-hidden="true"></span>
+                                        <span class="ml-25 align-middle" id="add-btn">Send Notification</span>
+                                    </button>
+
+                                </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+    <!-- END: Content-->
+
+    </div>
+
+
+    <div class="sidenav-overlay"></div>
+    <div class="drag-target"></div>
+
+    <!-- BEGIN: Footer-->
+    <footer class="footer footer-static footer-light">
+        <p class="clearfix mb-0"><span class="float-md-left d-block d-md-inline-block mt-25">COPYRIGHT &copy; 2021<a
+                    class="ml-25" href="https://1.envato.market/pixinvent_portfolio" target="_blank">Pixinvent</a><span
+                    class="d-none d-sm-inline-block">, All rights Reserved</span></span><span
+                class="float-md-right d-none d-md-block">Hand-crafted & Made with<i data-feather="heart"></i></span></p>
+    </footer>
+    <button class="btn btn-primary btn-icon scroll-top" type="button"><i data-feather="arrow-up"></i></button>
+    <!-- END: Footer-->
+
+
+
+
+    <!-- BEGIN: Vendor JS-->
+    <script src="{{ url_for('static', path='/vendors/js/vendors.min.js') }}"></script>
+    <!-- BEGIN Vendor JS-->
+
+    <!-- BEGIN: Page Vendor JS-->
+    <script src="{{ url_for('static', path='/vendors/js/forms/repeater/jquery.repeater.min.js') }}"></script>
+    <!-- END: Page Vendor JS-->
+
+    <!-- BEGIN: Theme JS-->
+    <script src="{{ url_for('static', path='/js/core/app-menu.js') }}"></script>
+    <script src="{{ url_for('static', path='/js/core/app.js') }}"></script>
+    <!-- END: Theme JS-->
+
+    <!-- BEGIN: Page JS-->
+    <script src="{{ url_for('static', path='/js/scripts/forms/form-repeater.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
+    <!-- END: Page JS-->
+
+
+    <script>
+
+        const addBrandForm = document.getElementById("add-notification-form");
+
+        addBrandForm.addEventListener("submit", onAddClicled);
+
+
+        $(window).on('load', function () {
+            if (feather) {
+                feather.replace({
+                    width: 14,
+                    height: 14
+                });
+            }
+        })
+
+
+        function onAddClicled(event) {
+            event.preventDefault();
+            const formData = new FormData(addBrandForm);
+
+            fetch("/admin/notifications", {
+                method: "POST",
+                body: formData,
+            })
+                .then((data) => {
+                    window.location.reload();
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+        }
+
+    </script>
+</body>
+{% endblock %}

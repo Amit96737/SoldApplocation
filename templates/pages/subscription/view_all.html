@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Sold Admin - Subscription</title>
+
+{% endblock %}
+
+{% block content %}
+<main class="h-full">
+    <div x-data="usersPage">
+        <div
+            class="px-5 pt-8 block sm:flex items-center justify-between lg:mt-1.5 bg-white dark:bg-gray-800 dark:border-gray-700">
+            <div class="w-full mb-1">
+                <div class="mb-6">
+                    <nav class="flex mb-5" aria-label="Breadcrumb">
+                        <ol class="inline-flex items-center space-x-1 text-sm font-medium md:space-x-2">
+                            <li class="inline-flex items-center">
+                                <a href="#"
+                                    class="inline-flex items-center text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-white">
+                                    <svg class="w-5 h-5 mr-2.5" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 
+                                            0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
+                                        </path>
+                                    </svg>
+                                    Home
+                                </a>
+                            </li>
+                            <li>
+                                <div class="flex items-center">
+                                    <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                    <a
+                                        class="ml-1 text-gray-700 hover:text-primary-600 md:ml-2 dark:text-gray-300 dark:hover:text-white">
+                                        Subscription</a>
+                                </div>
+                            </li>
+                            <!-- <li>
+                                <div class="flex items-center">
+                                    <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                    <span class="ml-1 text-gray-400 md:ml-2 dark:text-gray-500"
+                                        aria-current="page">Items</span>
+                                </div>
+                            </li> -->
+                        </ol>
+                    </nav>
+                    <h3 class="text-[1.4rem] font-semibold text-gray-900 sm:text-2xl dark:text-white">Subscription
+                    </h3>
+                </div>
+                <div class="sm:flex mb-5 justify-between">
+                    <div
+                        class="items-center hidden sm:flex sm:divide-x sm:divide-gray-100 sm:mb-0 dark:divide-gray-700">
+                        <form class="lg:pr-3" action="#" method="GET">
+                            <label for="users-search" class="sr-only">Search</label>
+                            <div class="relative lg:w-64 xl:w-96">
+                                <input x-model="searchFieldModel" type="text" name="email" id="users-search"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 
+                                    dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                                    placeholder="Search">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="px-4 py-5 dark:bg-gray-900">
+            <div class="flex flex-col">
+                <div class="overflow-x-auto  shadow-md sm:rounded-lg">
+                    <div class="inline-block min-w-full align-middle">
+                        <div class="overflow-hidden">
+                            <table
+                                class="min-w-full divide-y text-[0.85rem] text-left rtl:text-right text-gray-500 dark:text-gray-400 divide-gray-200 table-fixed 
+                                dark:divide-gray-600">
+                                <thead class=" text-gray-700 bg-gray-100 dark:bg-gray-700 dark:text-gray-400 text-xs">
+                                    <tr>
+                                        <th scope="col" class="px-4 py-4">
+                                            SL
+                                        </th>
+                                        <th scope="col" class="px-4 py-3">
+                                            User
+                                        </th>
+                                        <th scope="col" class="px-4 py-3">
+                                            Title
+                                        </th>
+                                        <th scope="col" class="px-4 py-3">
+                                            Subscribe at
+                                        </th>
+                                        <th scope="col" class="px-4 py-3 text-center">
+                                            Expire on
+                                        </th>
+                                        <th scope="col" class="px-4 py-3 text-center">
+                                            Status
+                                        </th>
+                                        <!-- <th scope="col" class="px-3 py-3 text-center">
+                                            Action
+                                        </th> -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in SubscriptionInDb %}
+
+                                    <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                                        <td class="w-4 p-4">
+                                            <a>{{loop.index}}</a>
+                                        </td>
+                                        <td class="flex items-center p-4 mr-12 space-x-2 whitespace-nowrap">
+                                           {{item.user.email_address}}
+                                        </td>
+                                        <td class="p-4 whitespace-nowrap">
+                                            {{item.plan.title}}
+                                        </td>
+                                        <td class="p-4 whitespace-nowrap">
+                                            {{item.subscribe_at.strftime('%m/%d/%Y %I:%M %p')}}
+                                        </td>
+                                        <td class="p-4">
+                                        {{item.expire_on.strftime('%m/%d/%Y %I:%M %p')}}
+                                        </td>
+                                        <td class="p-4">
+                                            <div class="flex items-center">
+                                                {% if item.expire_on|subscription_status %}
+                                                <div class="h-2.5 w-2.5 rounded-full mr-2 bg-green-400" :class="$store.globalState.statusClass[user['account_status']]" bis_skin_checked="1">
+                                                    
+                                                </div>
+                                                Active
+                                                {% else %}
+                                                <div class="h-2.5 w-2.5 rounded-full mr-2 bg-red-400" :class="$store.globalState.statusClass[user['account_status']]" bis_skin_checked="1">
+                                                </div>
+                                                Expired
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                            <!-- <div :class="filteredUsers.length === 0 || 'hidden'"
+                                class="h-20 dark:bg-gray-800 w-full text-center flex items-center justify-center">
+                                <a class="text-lg">No Data Found</a>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+</main>
+
+
+{% endblock %}

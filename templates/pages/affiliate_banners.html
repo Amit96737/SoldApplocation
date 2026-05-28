@@ -1,0 +1,290 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Sold Admin - Affiliate Banners</title>
+<script src="{{ url_for('static',path='js/pages/banners.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+
+<main class="h-full">
+    <div x-data="bannersPage">
+        <div
+            class="px-5 pt-8 block sm:flex items-center justify-between lg:mt-1.5 bg-white dark:bg-gray-800 dark:border-gray-700">
+            <div class="w-full mb-1">
+                <div class="mb-6">
+                    <nav class="flex mb-5" aria-label="Breadcrumb">
+                        <ol class="inline-flex items-center space-x-1 text-sm font-medium md:space-x-2">
+                            <li class="inline-flex items-center">
+                                <a href="#"
+                                    class="inline-flex items-center text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-white">
+                                    <svg class="w-5 h-5 mr-2.5" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
+                                        </path>
+                                    </svg>
+                                    Home
+                                </a>
+                            </li>
+                            <li>
+                                <div class="flex items-center">
+                                    <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                    <a href="#"
+                                        class="ml-1 text-gray-700 hover:text-primary-600 md:ml-2 dark:text-gray-300 dark:hover:text-white lowercase">Promotion
+                                        and engagement</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="flex items-center">
+                                    <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                    <span class="ml-1 text-gray-400 md:ml-2 dark:text-gray-500" aria-current="page">Affiliate
+                                        Banners</span>
+                                </div>
+                            </li>
+                        </ol>
+                    </nav>
+                    <h3 class="text-[1.4rem] font-semibold text-gray-900 sm:text-2xl dark:text-white">Affiliate Banners
+                    </h3>
+                </div>
+                <div class="sm:flex mb-5 justify-between">
+                    <div
+                        class="items-center hidden sm:flex sm:divide-x sm:divide-gray-100 sm:mb-0 dark:divide-gray-700">
+                        <form class="lg:pr-3" action="#" method="GET">
+                            <label for="users-search" class="sr-only">Search</label>
+                            <div class="relative lg:w-64 xl:w-96">
+                                <input x-model="searchFieldModel" type="text" name="email" id="users-search"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                                    placeholder="Search for language">
+                            </div>
+                        </form>
+                    </div>
+
+                    <div>
+                        <button @click="setImage('https://placehold.co/600x400' ,'accountUploadImg')" data-modal-target="add-translation-modal" data-modal-toggle="add-translation-modal"
+                            class="px-4 flex items-center py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700">
+                            Add Banner
+                        </button>
+
+                        <!-- Main modal -->
+                        <div id="add-translation-modal" tabindex="-1" aria-hidden="true"
+                            class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                            <div class="relative p-4 w-full max-w-md max-h-full">
+                                <!-- Modal content -->
+                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                    <!-- Modal header -->
+                                    <div
+                                        class="flex  py-3 justify-between items-center border-b rounded-t dark:border-gray-700">
+                                        <h3 class="mx-5 text-lg text-gray-900 font-semibold dark:text-white">
+                                            Add Affiliate Banner
+                                        </h3>
+
+                                        <button type="button"
+                                            class="text-gray-400 mx-5 p-2 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm ml-auto inline-flex items-center dark:hover:bg-gray-700 dark:hover:text-white"
+                                            data-modal-toggle="add-translation-modal">
+                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd"
+                                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                    clip-rule="evenodd"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <!-- Modal body -->
+                                    <form enctype="multipart/form-data" method="POST">
+                                        <div class="grid gap-4 mb-4 grid-cols-2 p-4 md:p-5">
+                                            <div class="col-span-2">
+                                                <label for="redirect_path"
+                                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Redirect
+                                                    Path</label>
+                                                <input type="text" name="redirect_path" id="redirect_path"
+                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 
+                                                    dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                                    placeholder="/example/path" required="">
+                                            </div>
+
+                                            <div class="col-span-2 relative flex items-center justify-center w-full">
+                                                <label for="dropzone-file"
+                                                    class="flex flex-col items-center justify-center w-full h-36 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50
+                                                     dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                                    <div class="h-36 w-full p-1">
+                                                        <img id="accountUploadImg"
+                                                            class="h-full w-full rounded-lg object-cover" alt="" />
+                                                    </div>
+                                                    <div class="absolute flex flex-col items-center">
+                                                        <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                                                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                            fill="none" viewBox="0 0 20 16">
+                                                            <path stroke="currentColor" stroke-linecap="round"
+                                                                stroke-linejoin="round" stroke-width="2"
+                                                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"></path>
+                                                        </svg>
+                                                        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span
+                                                                class="font-semibold">Click to upload</span>
+                                                            or drag and drop</p>
+                                                    </div>
+
+                                                    <input name="banner_img"
+                                                        id="dropzone-file" type="file" class="hidden" accept="image/*" required/>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div
+                                            class="items-center px-5 py-3 border-t border-gray-200 rounded-b dark:border-gray-700">
+                                            <button type="submit"
+                                                class="px-3 flex items-center py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700">
+                                                Add Banner
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="px-4 py-5 dark:bg-gray-900">
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <table class="w-full text-[0.85rem] text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="px-6 py-4">
+                                SL
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Banner Image
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Redirect Path
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Status
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-center">
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for banner in banners %}
+                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50
+                                dark:hover:bg-gray-600">
+                                <th scope="row"
+                                    class="w-10 px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {{ loop.index }}
+
+                                </th>
+                                <td class="px-6 py-4">
+
+                                    <img src="{{banner.image}}" height="70px" width="150px"
+                                        class="rounded-md object-cover" />
+                                </td>
+                                <td class="px-6 py-4">{{banner.redirect_path}}</td>
+
+                                <td class="py-4 px-5">
+                                    <label class="inline-flex items-center cursor-pointer">
+                                        <input onclick="bannersStatus('{{banner.id}}')"
+                                            type="checkbox" value="" class="sr-only peer" {% if banner.enabled %} checked {% endif %}>
+                                        <div onclick="bannersStatus('{{banner.id}}')"
+                                            class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                                        </div>
+
+                                    </label>
+                                </td>
+
+
+                                <td class="px-6 w-20 py-4 text-center items-center">
+                                    <div class="flex space-x-2">
+                                        <button type="button" data-modal-target="delete_{{loop.index}}"
+                                            data-modal-toggle="delete_{{loop.index}}"
+                                            class=" text-red-700 border border-red-700 hover:bg-red-400 hover:text-white  font-medium rounded-lg text-sm p-2 text-center inline-flex items-center dark:border-red-500 dark:red-blue-500 dark:hover:text-white  dark:hover:bg-red-500">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="feather feather-trash-2">
+                                                <polyline points="3 6 5 6 21 6"></polyline>
+                                                <path
+                                                    d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                                </path>
+                                                <line x1="10" y1="11" x2="10" y2="17"></line>
+                                                <line x1="14" y1="11" x2="14" y2="17"></line>
+                                            </svg>
+                                        </button>
+                                    </div>
+
+                                    <div class="fixed left-0 right-0 z-50 items-center justify-center hidden overflow-x-hidden overflow-y-auto top-4 md:inset-0 h-modal sm:h-full"
+                                        id="delete_{{loop.index}}">
+                                        <div class="relative w-full h-full max-w-md px-4 md:h-auto">
+                                            <!-- Modal content -->
+                                            <div class="relative bg-white rounded-lg shadow dark:bg-gray-800">
+                                                <!-- Modal header -->
+                                                <div class="flex justify-end p-2">
+                                                    <button type="button"
+                                                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-700 dark:hover:text-white"
+                                                        data-modal-hide="delete_{{loop.index}}">
+                                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                                            xmlns="http://www.w3.org/2000/svg">
+                                                            <path fill-rule="evenodd"
+                                                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                                clip-rule="evenodd"></path>
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                                <!-- Modal body -->
+                                                <div class="p-6 pt-0 text-center">
+                                                    <svg class="w-16 h-16 mx-auto text-red-600" fill="none"
+                                                        stroke="currentColor" viewBox="0 0 24 24"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                                                        </path>
+                                                    </svg>
+                                                    <h3 class="mt-5 mb-6 text-lg text-gray-500 dark:text-gray-400">
+                                                        Are you sure you want to delete this
+                                                        banner no = {{loop.index}}?</h3>
+                                                    <a href="/admin/affiliate-banner/?action=delete&banner_id={{banner.id}}"
+                                                        class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2 dark:focus:ring-red-800">
+                                                        Yes, I'm sure
+                                                    </button>
+                                                    <a href="#"
+                                                        class="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 border border-gray-200 font-medium inline-flex items-center rounded-lg text-base px-3 py-2.5 text-center dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+                                                        data-modal-hide="delete_{{loop.index}}">
+                                                        No, cancel
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        {% endfor%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+  function bannersStatus(id){
+      window.location.href = `/admin/affiliate-banner/?action=status&banner_id=${id}`;
+  }
+</script>
+
+{% endblock %}
