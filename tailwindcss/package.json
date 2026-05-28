@@ -1,0 +1,20 @@
+{
+  "name": "seekfullybackend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/seek-fully/backend.git"
+  },
+  "type": "module",
+  "private": true,
+  "dependencies": {
+    "apexcharts": "^3.53.0",
+    "feather-icons": "^4.29.2",
+    "flowbite": "^2.5.1"
+  }
+}

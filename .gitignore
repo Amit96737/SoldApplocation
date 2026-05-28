@@ -10,7 +10,6 @@ logs/
 app.log
 
 serviceAccountKey.json
-*.json
 
 alembic
 alembic.ini
