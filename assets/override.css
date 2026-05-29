@@ -1,0 +1,13 @@
+#blog-editor-container {
+    height: 350px !important;
+}
+
+#action-button {
+    margin-top: 4.7rem !important;
+}
+
+.article-card-over {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}

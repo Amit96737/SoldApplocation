@@ -3,7 +3,6 @@
 venv
 .vercel
 env
-assets
 .venv
 __pycache__
 logs/
