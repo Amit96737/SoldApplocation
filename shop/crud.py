@@ -291,7 +291,8 @@ def update_item_data(item_data: schemas.UpdateItem, db: Session, current_user, i
     ItemInDb.price = item_data.price if item_data.price else ItemInDb.price
     ItemInDb.images = json.dumps(item_data.images) if item_data.images else ItemInDb.images
     ItemInDb.payment_methods = json.dumps(
-        item_data.payment_methods) if item_data.payment_methods else item_data.payment_methods
+        item_data.payment_methods if item_data.payment_methods is not None else []
+    )
     ItemInDb.shipping_methods = json.dumps(
         item_data.shipping_methods) if item_data.shipping_methods else item_data.shipping_methods
     db.commit()
